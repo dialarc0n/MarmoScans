@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Visor de Manga</title>
+    <style>
+        body { background-color: #0b0d17; color: white; text-align: center; font-family: sans-serif; margin: 0; }
+        .manga-container { display: flex; flex-direction: column; align-items: center; padding: 20px; }
+        img { max-width: 100%; height: auto; margin-bottom: 10px; border-bottom: 2px solid #1a1d29; }
+        .back-btn { display: inline-block; margin: 20px; padding: 10px 20px; background: #5a32a8; color: white; text-decoration: none; border-radius: 5px; }
+    </style>
+</head>
+<body>
+    <a href="index.html" class="back-btn">← Volver al inicio</a>
+    <h1 id="titulo-cap">Cargando...</h1>
+    
+    <div id="manga-pages" class="manga-container">
+        </div>
+
+    <script>
+        // 1. Obtener el número de capítulo de la URL
+        const params = new URLSearchParams(window.location.search);
+        const cap = params.get('c');
+        document.getElementById('titulo-cap').innerText = "Capítulo " + cap;
+
+        const container = document.getElementById('manga-pages');
+
+        // 2. Cargar las imágenes (ajusta el número 30 si el cap tiene más o menos páginas)
+        // Basado en tus fotos: 1166-001.png, 1166-002.png...
+        for (let i = 1; i <= 30; i++) {
+            let pageNum = i.toString().padStart(3, '0'); // Esto lo convierte de 1 a "001"
+            let img = document.createElement('img');
+            
+            // RUTA IMPORTANTE: debe coincidir con tu carpeta en GitHub
+            img.src = `manga/capitulo-${cap}/1166-${pageNum}.png`; 
+            
+            // Si la imagen no existe (ej. el cap solo tiene 15 fotos), se oculta el error
+            img.onerror = function() { this.style.display = 'none'; };
+            
+            container.appendChild(img);
+        }
+    </script>
+</body>
+</html>
