@@ -18,27 +18,33 @@
         </div>
 
     <script>
-        // 1. Obtener el número de capítulo de la URL
-        const params = new URLSearchParams(window.location.search);
-        const cap = params.get('c');
-        document.getElementById('titulo-cap').innerText = "Capítulo " + cap;
+    const params = new URLSearchParams(window.location.search);
+    const cap = params.get('c');
+    // Mostramos el número del capítulo en el título
+    document.getElementById('titulo-cap').innerText = "Capítulo 1166"; 
 
-        const container = document.getElementById('manga-pages');
+    const container = document.getElementById('manga-pages');
 
-        // 2. Cargar las imágenes (ajusta el número 30 si el cap tiene más o menos páginas)
-        // Basado en tus fotos: 1166-001.png, 1166-002.png...
-        for (let i = 1; i <= 30; i++) {
-            let pageNum = i.toString().padStart(3, '0'); // Esto lo convierte de 1 a "001"
-            let img = document.createElement('img');
-            
-            // RUTA IMPORTANTE: debe coincidir con tu carpeta en GitHub
-            img.src = `manga/capitulo-${cap}/1166-${pageNum}.png`; 
-            
-            // Si la imagen no existe (ej. el cap solo tiene 15 fotos), se oculta el error
-            img.onerror = function() { this.style.display = 'none'; };
-            
-            container.appendChild(img);
-        }
-    </script>
+    // Bucle para cargar las fotos (ajusta el 20 por la cantidad de fotos que tengas)
+    for (let i = 1; i <= 20; i++) {
+        let pageNum = i.toString().padStart(3, '0'); 
+        let img = document.createElement('img');
+        
+        // RUTA CORRECTA: carpeta 'manga' / capítulo / nombre de archivo
+        // Tus fotos se llaman 1166-001.png, 1166-003.png...
+        img.src = `manga/capitulo-${cap}/1166-${pageNum}.png`; 
+        
+        // Estilo básico para que se vean una debajo de otra
+        img.style.width = "100%";
+        img.style.maxWidth = "800px";
+        img.style.display = "block";
+        img.style.margin = "0 auto 10px auto";
+
+        // Si la página no existe (ej. te saltaste el 002), no muestra error
+        img.onerror = function() { this.style.display = 'none'; };
+        
+        container.appendChild(img);
+    }
+</script>
 </body>
 </html>
