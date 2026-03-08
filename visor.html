@@ -3,58 +3,96 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title id="page-title">Visor de Manga</title>
+    <title id="page-title">Visor de Manga - MarmoScans</title>
     <style>
-        body { background-color: #0b0d17; color: white; font-family: sans-serif; margin: 0; display: flex; flex-direction: column; align-items: center; }
+        /* Diseño Minimalista para Lectura */
+        body {
+            background-color: #050505; /* Casi negro para que resalten las páginas */
+            color: #fff;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
 
-        /* HEADER PERSISTENTE */
-        header { width: 100%; background: #10121d; padding: 15px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #222; position: sticky; top: 0; z-index: 1000; }
-        .menu-btn { font-size: 24px; cursor: pointer; color: white; text-decoration: none; }
-        
-        /* CONTENEDOR */
-        #manga-pages { width: 100%; max-width: 1200px; padding: 20px 0; display: flex; flex-direction: column; align-items: center; }
-        #manga-pages img { width: 100%; max-width: 800px; height: auto; display: block; margin-bottom: 10px; }
+        /* Cabecera pegajosa (Sticky) */
+        header {
+            width: 100%;
+            background: rgba(16, 18, 29, 0.95);
+            padding: 15px 0;
+            text-align: center;
+            border-bottom: 1px solid #222;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+        }
 
-        /* FOOTER DE NAVEGACIÓN (Estilo Manga) */
-        .nav-footer { width: 100%; max-width: 800px; background: #1a1d29; padding: 15px; display: flex; justify-content: space-between; margin-top: 20px; border-radius: 5px; }
-        .nav-footer a { color: white; text-decoration: none; font-weight: bold; padding: 10px; background: #333; border-radius: 4px; }
+        .nav-btn {
+            background: #8b5cf6;
+            color: white;
+            padding: 8px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            font-family: sans-serif;
+            margin: 0 10px;
+            font-size: 14px;
+        }
+
+        /* Contenedor de Imágenes */
+        #manga-pages {
+            width: 100%;
+            max-width: 1400px; /* Aquí caben de sobra las páginas dobles */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px 0;
+        }
+
+        /* Estilo para que las dobles se agranden solas */
+        #manga-pages img {
+            width: auto;
+            max-width: 100%; /* No deja que se salgan de la pantalla */
+            height: auto;
+            display: block;
+            margin-bottom: 10px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.5);
+        }
+
+        /* En PC, las verticales no se verán tan flacas */
+        @media (min-width: 1024px) {
+            #manga-pages img { min-width: 60%; }
+        }
     </style>
 </head>
 <body>
-
     <header>
-        <a href="index.html" class="menu-btn">☰</a>
-        <h2 id="titulo-cap" style="margin:0; font-size: 1.2rem;">Cargando...</h2>
-        <div style="width: 30px;"></div> </header>
+        <h2 id="titulo-cap" style="margin-bottom:10px; font-family:sans-serif;">Cargando...</h2>
+        <a href="index.html" class="nav-btn">← Volver</a>
+        <a href="#" id="next-btn" class="nav-btn">Siguiente Capítulo →</a>
+    </header>
 
     <div id="manga-pages"></div>
-
-    <div class="nav-footer">
-        <a href="#" id="prev-link">← PREV</a>
-        <a href="index.html">Lista de Capítulos</a>
-        <a href="#" id="next-link">NEXT →</a>
-    </div>
 
     <script>
         const params = new URLSearchParams(window.location.search);
         let cap = parseInt(params.get('c')) || 1;
-        const currentCapNum = 1165 + cap;
         
-        document.getElementById('titulo-cap').innerText = "One Piece " + currentCapNum;
+        document.getElementById('titulo-cap').innerText = "Capítulo " + (1165 + cap);
 
-        // Lógica de botones
-        const nextLink = document.getElementById('next-link');
-        const prevLink = document.getElementById('prev-link');
-        
-        nextLink.href = `visor.html?c=${cap + 1}`;
-        prevLink.href = (cap > 1) ? `visor.html?c=${cap - 1}` : "#";
+        // Botón siguiente
+        const nextBtn = document.getElementById('next-btn');
+        if (cap < 10) { nextBtn.href = `visor.html?c=${cap + 1}`; } 
+        else { nextBtn.style.display = 'none'; }
 
-        // Carga de imágenes
+        // Cargar páginas
         const container = document.getElementById('manga-pages');
         for (let i = 1; i <= 30; i++) {
             let pageNum = i.toString().padStart(3, '0');
             let img = document.createElement('img');
-            img.src = `manga/OnePiece/${currentCapNum}/${currentCapNum}-${pageNum}.png`; 
+            img.src = `manga/capitulo-${cap}/${1165 + cap}-${pageNum}.png`; 
             img.onerror = function() { this.style.display = 'none'; };
             container.appendChild(img);
         }
