@@ -3,106 +3,64 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title id="page-title">Visor de Manga - MarmoScans</title>
+    <title>Visor - MarmoScans</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
     <style>
-        /* Diseño Minimalista para Lectura */
-        body {
-            background-color: #050505; /* Casi negro para que resalten las páginas */
-            color: #fff;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
+        /* Ajustes específicos para el visor que no afectan el resto de la web */
+        body { display: flex; flex-direction: column; align-items: center; min-height: 100vh; }
+        header { position: sticky; top: 0; z-index: 1000; width: 100%; }
+        
+        #manga-pages { width: 100%; max-width: 900px; display: flex; flex-direction: column; align-items: center; padding: 20px 0; }
+        #manga-pages img { width: 100%; height: auto; display: block; margin-bottom: 5px; }
 
-        /* Cabecera pegajosa (Sticky) */
-        header {
-            width: 100%;
-            background: rgba(16, 18, 29, 0.95);
-            padding: 15px 0;
-            text-align: center;
-            border-bottom: 1px solid #222;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            backdrop-filter: blur(10px);
-        }
-
-        .nav-btn {
-            background: #8b5cf6;
-            color: white;
-            padding: 8px 20px;
-            border-radius: 5px;
-            text-decoration: none;
-            font-weight: bold;
-            font-family: sans-serif;
-            margin: 0 10px;
-            font-size: 14px;
-        }
-
-        /* Contenedor de Imágenes */
-        #manga-pages {
-            width: 100%;
-            max-width: 1400px; /* Aquí caben de sobra las páginas dobles */
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 20px 0;
-        }
-
-        /* Estilo para que las dobles se agranden solas */
-        #manga-pages img {
-            width: auto;
-            max-width: 100%; /* No deja que se salgan de la pantalla */
-            height: auto;
-            display: block;
-            margin-bottom: 10px;
-            box-shadow: 0 0 20px rgba(0,0,0,0.5);
-        }
-
-        /* En PC, las verticales no se verán tan flacas */
-        @media (min-width: 1024px) {
-            #manga-pages img { min-width: 60%; }
-        }
+        /* Estilo del Footer de Navegación */
+        .nav-footer { width: 100%; max-width: 900px; display: flex; justify-content: space-between; align-items: center; padding: 20px; background: #10121d; color: white; margin-bottom: 50px; border-radius: 8px; }
+        .nav-footer a { color: white; text-decoration: none; font-weight: bold; padding: 10px 20px; background: #5a32a8; border-radius: 5px; }
+        .nav-footer a:hover { background: #7c4dff; }
     </style>
 </head>
 <body>
+
     <header>
-        <h2 id="titulo-cap" style="margin-bottom:10px; font-family:sans-serif;">Cargando...</h2>
-        <a href="index.html" class="nav-btn">← Volver</a>
-        <a href="#" id="next-btn" class="nav-btn">Siguiente Capítulo →</a>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="./css/styles.css">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ==" crossorigin="anonymous" referrerpolicy="no-referrer"/>
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-        <link rel="shortcut icon" href="assets/icons/Icon_image.jpg" type="image/x-icon">
-        <title>MarmoScans</title>
+        <div class="logo">
+            <span class="logo-icon"><i class="fas fa-book-open"></i></span>
+            <h1>MarmoScans</h1>
+        </div>
+        <nav class="main-nav">
+            <a href="../index.html" class="nav-link">Inicio</a>
+        </nav>
     </header>
 
-    <div id="manga-pages"></div>
+    <div id="manga-pages">
+        <h2 id="titulo-cap">Cargando capítulo...</h2>
+    </div>
+
+    <div class="nav-footer">
+        <a href="#" id="prev-link">← PREV</a>
+        <a href="../index.html"><i class="fas fa-bars"></i> Lista</a>
+        <a href="#" id="next-link">NEXT →</a>
+    </div>
 
     <script>
         const params = new URLSearchParams(window.location.search);
-        let cap = parseInt(params.get('c')) || 1;
+        let cap = parseInt(params.get('c')) || 1171; // Tu capítulo inicial
         
-        document.getElementById('titulo-cap').innerText = "Capítulo " + (1165 + cap);
+        document.getElementById('titulo-cap').innerText = "Capítulo " + cap;
+        document.title = "One Piece " + cap + " - MarmoScans";
 
-        // Botón siguiente
-        const nextBtn = document.getElementById('next-btn');
-        if (cap < 10) { nextBtn.href = `visor.html?c=${cap + 1}`; } 
-        else { nextBtn.style.display = 'none'; }
+        // Lógica de botones (ajusta los links según tu estructura)
+        document.getElementById('next-link').href = `visor.html?c=${cap + 1}`;
+        document.getElementById('prev-link').href = `visor.html?c=${cap - 1}`;
 
-        // Cargar páginas
         const container = document.getElementById('manga-pages');
+        
+        // Carga automática de imágenes
         for (let i = 1; i <= 30; i++) {
             let pageNum = i.toString().padStart(3, '0');
             let img = document.createElement('img');
-            img.src = `manga/capitulo-${cap}/${1165 + cap}-${pageNum}.png`; 
+            // Asegúrate que esta ruta coincida con tu carpeta en GitHub
+            img.src = `../manga/OnePiece/${cap}/${cap}-${pageNum}.png`; 
             img.onerror = function() { this.style.display = 'none'; };
             container.appendChild(img);
         }
