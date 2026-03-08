@@ -39,35 +39,48 @@
     </div>
 
 <script>
-    // 1. Obtener el número de capítulo de la URL (ej: visor.html?c=1171)
-    const params = new URLSearchParams(window.location.search);
-    let cap = parseInt(params.get('c')) || 1171; // Si no hay nada, por defecto 1171
-    
-    // 2. Actualizar el título
-    document.getElementById('titulo-cap').innerText = "Capítulo " + cap;
-    document.title = "One Piece " + cap + " - MarmoScans";
+        // 1. Obtener los parámetros de la URL
+        const params = new URLSearchParams(window.location.search);
+        let cap = parseInt(params.get('c'));
 
-    // 3. Configurar enlaces de navegación
-    document.getElementById('next-link').href = `visor.html?c=${cap + 1}`;
-    document.getElementById('prev-link').href = `visor.html?c=${cap - 1}`;
+        if (isNaN(cap)) { cap = 1; }
 
-    // 4. Cargar imágenes
-    const container = document.getElementById('manga-pages');
-    // Limpiamos el contenedor por si acaso
-    container.innerHTML = '<h2 id="titulo-cap">Capítulo ' + cap + '</h2>';
+        // 2. Títulos dinámicos
+        let nombreCapitulo = "";
+        if (cap === 1) { nombreCapitulo = "Capítulo 1166"; } 
+        else { nombreCapitulo = "Capítulo " + (1165 + cap); }
 
-    for (let i = 1; i <= 30; i++) {
-        let p = i.toString().padStart(3, '0');
-        let img = document.createElement('img');
+        document.getElementById('titulo-cap').innerText = nombreCapitulo;
+        document.getElementById('page-title').innerText = "Viendo " + nombreCapitulo;
+
+        // 3. Configurar el botón "Siguiente Capítulo"
+        const nextLink = document.getElementById('next-btn');
+        let nextCap = cap + 1; 
         
-        // ¡OJO AQUÍ! Esta ruta debe coincidir con tu carpeta en GitHub
-        // Tu carpeta es: /OnePiece/1171/
-        img.src = `OnePiece/${cap}/${cap}-${p}.png`; 
-        
-        // Si la imagen falla, no la mostramos
-        img.onerror = function() { this.style.display = 'none'; };
-        container.appendChild(img);
-    }
+        // Límite de capítulos (Ajusta este número según subas más)
+        if (cap < 5) {  
+            nextLink.href = `visor.html?c=${nextCap}`;
+            nextLink.style.display = 'inline-block';
+        } else {
+            nextLink.style.display = 'none';
+        }
+
+        const container = document.getElementById('manga-pages');
+
+        // 4. Cargar las imágenes
+        for (let i = 1; i <= 30; i++) {
+            let pageNum = i.toString().padStart(3, '0');
+            let img = document.createElement('img');
+            
+            // Usamos tu ruta de carpetas
+            img.src = `manga/capitulo-${cap}/${1165 + cap}-${pageNum}.png`; 
+            img.alt = `Página ${pageNum}`;
+            
+            // Si la imagen no existe, la oculta
+            img.onerror = function() { this.style.display = 'none'; };
+            
+            container.appendChild(img);
+        }
 </script>
 </body>
 </html>
