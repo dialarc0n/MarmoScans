@@ -38,23 +38,36 @@
         <a href="#" id="next-link" style="padding: 10px; background: #5a32a8; color:white; text-decoration:none;">NEXT →</a>
     </div>
 
-    <script>
-        const params = new URLSearchParams(window.location.search);
-        let cap = parseInt(params.get('c')) || 1171;
-        
-        document.getElementById('titulo-cap').innerText = "Capítulo " + cap;
-        document.getElementById('next-link').href = `visor.html?c=${cap + 1}`;
-        document.getElementById('prev-link').href = `visor.html?c=${cap - 1}`;
+<script>
+    // 1. Obtener el número de capítulo de la URL (ej: visor.html?c=1171)
+    const params = new URLSearchParams(window.location.search);
+    let cap = parseInt(params.get('c')) || 1171; // Si no hay nada, por defecto 1171
+    
+    // 2. Actualizar el título
+    document.getElementById('titulo-cap').innerText = "Capítulo " + cap;
+    document.title = "One Piece " + cap + " - MarmoScans";
 
-        const container = document.getElementById('manga-pages');
-        // Asegúrate de que esta ruta coincida con tu carpeta en GitHub
-        for (let i = 1; i <= 30; i++) {
-            let p = i.toString().padStart(3, '0');
-            let img = document.createElement('img');
-            img.src = `mangas/OnePiece/${cap}/${cap}-${p}.png`; 
-            img.onerror = function() { this.style.display = 'none'; };
-            container.appendChild(img);
-        }
-    </script>
+    // 3. Configurar enlaces de navegación
+    document.getElementById('next-link').href = `visor.html?c=${cap + 1}`;
+    document.getElementById('prev-link').href = `visor.html?c=${cap - 1}`;
+
+    // 4. Cargar imágenes
+    const container = document.getElementById('manga-pages');
+    // Limpiamos el contenedor por si acaso
+    container.innerHTML = '<h2 id="titulo-cap">Capítulo ' + cap + '</h2>';
+
+    for (let i = 1; i <= 30; i++) {
+        let p = i.toString().padStart(3, '0');
+        let img = document.createElement('img');
+        
+        // ¡OJO AQUÍ! Esta ruta debe coincidir con tu carpeta en GitHub
+        // Tu carpeta es: /OnePiece/1171/
+        img.src = `OnePiece/${cap}/${cap}-${p}.png`; 
+        
+        // Si la imagen falla, no la mostramos
+        img.onerror = function() { this.style.display = 'none'; };
+        container.appendChild(img);
+    }
+</script>
 </body>
 </html>
