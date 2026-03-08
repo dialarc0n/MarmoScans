@@ -5,144 +5,57 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title id="page-title">Visor de Manga</title>
     <style>
-        /* --- ESTILOS GENERALES --- */
-        body {
-            background-color: #0b0d17;
-            color: white;
-            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
+        body { background-color: #0b0d17; color: white; font-family: sans-serif; margin: 0; display: flex; flex-direction: column; align-items: center; }
 
-        /* --- CABECERA --- */
-        header {
-            width: 100%;
-            padding: 20px 0;
-            text-align: center;
-            background-color: #10121d;
-            border-bottom: 1px solid #1a1d29;
-            margin-bottom: 20px;
-        }
+        /* HEADER PERSISTENTE */
+        header { width: 100%; background: #10121d; padding: 15px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #222; position: sticky; top: 0; z-index: 1000; }
+        .menu-btn { font-size: 24px; cursor: pointer; color: white; text-decoration: none; }
+        
+        /* CONTENEDOR */
+        #manga-pages { width: 100%; max-width: 1200px; padding: 20px 0; display: flex; flex-direction: column; align-items: center; }
+        #manga-pages img { width: 100%; max-width: 800px; height: auto; display: block; margin-bottom: 10px; }
 
-        h1#titulo-cap {
-            margin: 0 0 15px 0;
-            font-size: 2em;
-        }
-
-        .nav-buttons {
-            display: flex;
-            gap: 15px;
-            justify-content: center;
-        }
-
-        .nav-btn {
-            display: inline-block;
-            padding: 10px 25px;
-            background-color: #5a32a8;
-            color: white;
-            text-decoration: none;
-            border-radius: 5px;
-            font-weight: bold;
-            transition: background-color 0.3s ease;
-        }
-
-        .nav-btn:hover {
-            background-color: #7c4dff;
-        }
-
-        /* --- CONTENEDOR DE IMÁGENES (Aumentado para páginas dobles) --- */
-        #manga-pages {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            width: 100%;
-            /* Aumentamos a 1400px para que las páginas dobles se vean GRANDES */
-            max-width: 1600px; 
-            padding-bottom: 40px;
-        }
-
-        /* --- LAS IMÁGENES --- */
-        #manga-pages img {
-            width: auto;         /* Permite que la imagen use su ancho natural */
-            max-width: 100%;     /* Impide que se salga de la pantalla */
-            height: auto;
-            display: block;
-            margin-bottom: 10px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-        }
-
-        /* Ajuste para que las verticales no se vean tan pequeñas en monitores grandes */
-        @media (min-width: 1024px) {
-            #manga-pages img {
-                min-width: 60%; 
-            }
-        }
-
-        @media (max-width: 600px) {
-            #manga-pages img {
-                width: 100%;
-                min-width: 100%;
-            }
-        }
+        /* FOOTER DE NAVEGACIÓN (Estilo Manga) */
+        .nav-footer { width: 100%; max-width: 800px; background: #1a1d29; padding: 15px; display: flex; justify-content: space-between; margin-top: 20px; border-radius: 5px; }
+        .nav-footer a { color: white; text-decoration: none; font-weight: bold; padding: 10px; background: #333; border-radius: 4px; }
     </style>
 </head>
 <body>
 
     <header>
-        <h1 id="titulo-cap">Cargando...</h1>
-        <div class="nav-buttons">
-            <a href="index.html" class="nav-btn">← Volver al inicio</a>
-            <a href="#" id="next-btn" class="nav-btn">Siguiente Capítulo →</a>
-        </div>
-    </header>
-    
-    <div id="manga-pages">
-        </div>
+        <a href="index.html" class="menu-btn">☰</a>
+        <h2 id="titulo-cap" style="margin:0; font-size: 1.2rem;">Cargando...</h2>
+        <div style="width: 30px;"></div> </header>
+
+    <div id="manga-pages"></div>
+
+    <div class="nav-footer">
+        <a href="#" id="prev-link">← PREV</a>
+        <a href="index.html">Lista de Capítulos</a>
+        <a href="#" id="next-link">NEXT →</a>
+    </div>
 
     <script>
-        // 1. Obtener los parámetros de la URL
         const params = new URLSearchParams(window.location.search);
-        let cap = parseInt(params.get('c'));
-
-        if (isNaN(cap)) { cap = 1; }
-
-        // 2. Títulos dinámicos
-        let nombreCapitulo = "";
-        if (cap === 1) { nombreCapitulo = "Capítulo 1166"; } 
-        else { nombreCapitulo = "Capítulo " + (1165 + cap); }
-
-        document.getElementById('titulo-cap').innerText = nombreCapitulo;
-        document.getElementById('page-title').innerText = "Viendo " + nombreCapitulo;
-
-        // 3. Configurar el botón "Siguiente Capítulo"
-        const nextLink = document.getElementById('next-btn');
-        let nextCap = cap + 1; 
+        let cap = parseInt(params.get('c')) || 1;
+        const currentCapNum = 1165 + cap;
         
-        // Límite de capítulos (Ajusta este número según subas más)
-        if (cap < 5) {  
-            nextLink.href = `visor.html?c=${nextCap}`;
-            nextLink.style.display = 'inline-block';
-        } else {
-            nextLink.style.display = 'none';
-        }
+        document.getElementById('titulo-cap').innerText = "One Piece " + currentCapNum;
 
+        // Lógica de botones
+        const nextLink = document.getElementById('next-link');
+        const prevLink = document.getElementById('prev-link');
+        
+        nextLink.href = `visor.html?c=${cap + 1}`;
+        prevLink.href = (cap > 1) ? `visor.html?c=${cap - 1}` : "#";
+
+        // Carga de imágenes
         const container = document.getElementById('manga-pages');
-
-        // 4. Cargar las imágenes
         for (let i = 1; i <= 30; i++) {
             let pageNum = i.toString().padStart(3, '0');
             let img = document.createElement('img');
-            
-            // Usamos tu ruta de carpetas
-            img.src = `manga/capitulo-${cap}/${1165 + cap}-${pageNum}.png`; 
-            img.alt = `Página ${pageNum}`;
-            
-            // Si la imagen no existe, la oculta
+            img.src = `manga/OnePiece/${currentCapNum}/${currentCapNum}-${pageNum}.png`; 
             img.onerror = function() { this.style.display = 'none'; };
-            
             container.appendChild(img);
         }
     </script>
