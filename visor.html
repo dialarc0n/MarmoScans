@@ -11,9 +11,10 @@
         flex-direction: column;
         align-items: center;
         margin: 0;
+        font-family: Arial, sans-serif;
       }
 
-      /* Header no fijo (relative) */
+      /* Header restaurado */
       header {
         width: 100%;
         position: relative;
@@ -31,21 +32,21 @@
         margin-top: 20px;
       }
 
-      /* Tamaño base para verticales: 1050px */
+      /* Imágenes verticales base (1050px) */
       .page-img {
         width: 95%;
         max-width: 1050px;
         margin: 10px auto;
         display: block;
-        transition: transform 0.2s;
       }
 
-      /* Clase dinámica para dobles: 1400px */
+      /* Imágenes dobles (detectadas por el script) */
       .double-page {
         max-width: 1400px !important;
         box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
       }
 
+      /* Diseño de botones */
       .nav-footer {
         width: 90%;
         max-width: 800px;
@@ -60,6 +61,7 @@
         padding: 10px 20px;
         background: #333;
         border-radius: 5px;
+        transition: 0.3s;
       }
       .nav-btn:hover {
         background: #555;
@@ -68,7 +70,10 @@
   </head>
   <body>
     <header>
-      <h1 id="info-display" style="text-align: center; margin: 0">
+      <h1
+        id="info-display"
+        style="text-align: center; margin: 0; font-size: 1.5rem"
+      >
         Cargando...
       </h1>
     </header>
@@ -97,26 +102,24 @@
 
       const container = document.getElementById("manga-container");
 
-      // Función que carga imágenes una por una para mantener el orden y evitar errores 404
+      // Función que carga imágenes en orden exacto
       function cargarPaginas(i) {
         let p = i.toString().padStart(3, "0");
-        let url = `Marmoscans/${manga}/${cap}/${cap}-${p}.webp`;
-
-        let img = document.createElement("img");
-        img.src = url;
+        let img = new Image();
+        img.src = `Marmoscans/${manga}/${cap}/${cap}-${p}.webp`;
         img.className = "page-img";
 
         img.onload = function () {
-          // Detección automática: si supera los 1200px es doble
+          // Si la imagen es más ancha que 1200px, es doble
           if (this.naturalWidth > 1200) {
             this.classList.add("double-page");
           }
           container.appendChild(img);
-          cargarPaginas(i + 1); // Carga la siguiente solo si la actual existe
+          cargarPaginas(i + 1); // Llama a la siguiente página
         };
 
         img.onerror = function () {
-          console.log("Capítulo cargado correctamente.");
+          console.log("Fin del capítulo.");
         };
       }
 
