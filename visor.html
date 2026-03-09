@@ -144,14 +144,22 @@
       document.title = `${manga} Cap ${cap} - MarmoScans`;
 
       // 3. Configurar botones de navegación
-      // Redirige a la página del manga específico (ej: mangas/onepiece.html)
-      document.getElementById("back-to-list").href =
-        `mangas/${manga.toLowerCase()}.html`;
+      // Definimos el primer capítulo disponible
+      const primerCapitulo = 1171;
 
+      // Botón Anterior
+      const prevBtn = document.getElementById("prev-btn");
+      if (cap <= primerCapitulo) {
+        // Si estamos en el primer capítulo, ocultamos el botón
+        prevBtn.style.visibility = "hidden"; // Oculta visualmente pero mantiene el espacio
+      } else {
+        prevBtn.href = `visor.html?manga=${manga}&c=${cap - 1}`;
+        prevBtn.style.visibility = "visible";
+      }
+
+      // Botón Siguiente (siempre activo en tu caso)
       document.getElementById("next-btn").href =
         `visor.html?manga=${manga}&c=${cap + 1}`;
-      document.getElementById("prev-btn").href =
-        cap > 1 ? `visor.html?c=${cap - 1}` : "#";
 
       // 4. Cargar imágenes dinámicamente
       const container = document.getElementById("manga-container");
