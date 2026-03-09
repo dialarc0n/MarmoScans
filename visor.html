@@ -11,12 +11,16 @@
         header { width: 100%; position: relative; top: 0; z-index: 1000; background: #0b0d17; border-bottom: 1px solid #333; }
         
         #manga-container { width: 100%; max-width: 900px; display: flex; flex-direction: column; align-items: center; padding: 20px 0; }
-        #manga-container img { width: 100%; max-width: 1050px; height: auto; display: block; margin-bottom: 5px; }
+        #manga-container img { width: 100%; max-width: 1200px; height: auto; display: block; margin-bottom: 5px; }
+        
 
         .nav-footer { width: 90%; max-width: 800px; display: flex; justify-content: space-between; padding: 20px; background: #161821; border-radius: 10px; margin: 40px 0; border: 1px solid #333; }
         .nav-btn { color: white; text-decoration: none; font-weight: bold; padding: 12px 25px; background: #5a32a8; border-radius: 6px; transition: 0.3s; }
         .nav-btn:hover { background: #7c4dff; }
         .list-btn { background: #333; }
+        /* Esta clase le da el tamaño grande a las dobles */
+        .double-page { max-width: 1400px !important; margin: 20px auto !important;
+}
     </style>
 </head>
 <body>
@@ -67,7 +71,15 @@
             // Ejemplo: Marmoscans/OnePiece/1171/1171-001.webp
             img.src = `Marmoscans/${manga}/${cap}/${cap}-${p}.webp`; 
             
-            // Si la imagen no existe (ej: la página 21 de un cap de 20), se oculta
+            // MODIFICACIÓN: Agregamos la detección de tamaño al cargar
+            img.onload = function() {
+                if (this.naturalWidth > 1200) {
+                    this.style.maxWidth = '1400px';
+                    this.style.margin = '20px auto';
+                    this.style.boxShadow = '0 4px 15px rgba(0,0,0,0.5)';
+                }
+            };
+
             img.onerror = function() { this.style.display = 'none'; };
             container.appendChild(img);
         }
