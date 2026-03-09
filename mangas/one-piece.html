@@ -1,232 +1,256 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../css/styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ==" crossorigin="anonymous" referrerpolicy="no-referrer"/>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="shortcut icon" href="assets/icons/Icon_image.jpg" type="image/x-icon">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../css/styles.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css"
+      integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="shortcut icon"
+      href="assets/icons/Icon_image.jpg"
+      type="image/x-icon"
+    />
     <title>One Piece - MarmoScans</title>
     <style>
-        /* Manga Detail Page Styles */
-        .manga-detail {
-            min-height: 100vh;
-            padding: 120px 5% 4rem;
-            background: var(--color-bg-primary);
-        }
+      /* Manga Detail Page Styles */
+      .manga-detail {
+        min-height: 100vh;
+        padding: 120px 5% 4rem;
+        background: var(--color-bg-primary);
+      }
 
-        .back-button {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.75rem 1.5rem;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid var(--color-border);
-            border-radius: 50px;
-            color: var(--color-text-secondary);
-            font-size: 0.9rem;
-            font-weight: 500;
-            transition: var(--transition-fast);
-            margin-bottom: 2rem;
-        }
+      .back-button {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.75rem 1.5rem;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid var(--color-border);
+        border-radius: 50px;
+        color: var(--color-text-secondary);
+        font-size: 0.9rem;
+        font-weight: 500;
+        transition: var(--transition-fast);
+        margin-bottom: 2rem;
+      }
 
-        .back-button:hover {
-            background: var(--color-accent);
-            border-color: var(--color-accent);
-            color: white;
-        }
+      .back-button:hover {
+        background: var(--color-accent);
+        border-color: var(--color-accent);
+        color: white;
+      }
 
+      .manga-detail-container {
+        display: grid;
+        grid-template-columns: 350px 1fr;
+        gap: 3rem;
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      .manga-cover {
+        position: sticky;
+        top: 120px;
+      }
+
+      .manga-cover img {
+        width: 100%;
+        border-radius: var(--border-radius-lg);
+        box-shadow:
+          0 20px 40px rgba(0, 0, 0, 0.4),
+          0 0 60px var(--color-accent-glow);
+        border: 1px solid var(--color-border);
+      }
+
+      .manga-info {
+        padding: 1rem 0;
+      }
+
+      .manga-title {
+        font-family: var(--font-display);
+        font-size: clamp(2.5rem, 5vw, 4rem);
+        font-weight: 400;
+        letter-spacing: 3px;
+        margin-bottom: 1rem;
+        color: var(--color-text-primary);
+      }
+
+      .manga-description {
+        font-size: 1rem;
+        color: var(--color-text-secondary);
+        line-height: 1.8;
+        margin-bottom: 2rem;
+      }
+
+      .chapters-section h2 {
+        font-family: var(--font-display);
+        font-size: 1.8rem;
+        font-weight: 400;
+        letter-spacing: 2px;
+        margin-bottom: 1.5rem;
+        color: var(--color-text-primary);
+      }
+
+      .chapters-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        gap: 1rem;
+      }
+
+      .chapter-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 1rem 1.5rem;
+        background: var(--color-bg-card);
+        border: 1px solid var(--color-border);
+        border-radius: var(--border-radius-md);
+        color: var(--color-text-primary);
+        font-size: 0.95rem;
+        font-weight: 500;
+        transition: var(--transition-fast);
+        text-decoration: none;
+      }
+
+      .chapter-btn:hover {
+        background: var(--color-accent);
+        border-color: var(--color-accent);
+        transform: translateY(-3px);
+        box-shadow: 0 10px 20px var(--color-accent-glow);
+      }
+
+      /* Responsive */
+      @media (max-width: 900px) {
         .manga-detail-container {
-            display: grid;
-            grid-template-columns: 350px 1fr;
-            gap: 3rem;
-            max-width: 1200px;
-            margin: 0 auto;
+          grid-template-columns: 1fr;
+          gap: 2rem;
         }
 
         .manga-cover {
-            position: sticky;
-            top: 120px;
+          position: relative;
+          top: 0;
+          max-width: 300px;
+          margin: 0 auto;
         }
+      }
 
-        .manga-cover img {
-            width: 100%;
-            border-radius: var(--border-radius-lg);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4),
-                        0 0 60px var(--color-accent-glow);
-            border: 1px solid var(--color-border);
-        }
-
-        .manga-info {
-            padding: 1rem 0;
-        }
-
-        .manga-title {
-            font-family: var(--font-display);
-            font-size: clamp(2.5rem, 5vw, 4rem);
-            font-weight: 400;
-            letter-spacing: 3px;
-            margin-bottom: 1rem;
-            color: var(--color-text-primary);
-        }
-
-        .manga-description {
-            font-size: 1rem;
-            color: var(--color-text-secondary);
-            line-height: 1.8;
-            margin-bottom: 2rem;
-        }
-
-        .chapters-section h2 {
-            font-family: var(--font-display);
-            font-size: 1.8rem;
-            font-weight: 400;
-            letter-spacing: 2px;
-            margin-bottom: 1.5rem;
-            color: var(--color-text-primary);
+      @media (max-width: 480px) {
+        .manga-detail {
+          padding: 100px 1.5rem 3rem;
         }
 
         .chapters-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-            gap: 1rem;
+          grid-template-columns: repeat(2, 1fr);
+          gap: 0.75rem;
         }
 
         .chapter-btn {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 1rem 1.5rem;
-            background: var(--color-bg-card);
-            border: 1px solid var(--color-border);
-            border-radius: var(--border-radius-md);
-            color: var(--color-text-primary);
-            font-size: 0.95rem;
-            font-weight: 500;
-            transition: var(--transition-fast);
-            text-decoration: none;
+          padding: 0.75rem 1rem;
+          font-size: 0.85rem;
         }
-
-        .chapter-btn:hover {
-            background: var(--color-accent);
-            border-color: var(--color-accent);
-            transform: translateY(-3px);
-            box-shadow: 0 10px 20px var(--color-accent-glow);
-        }
-
-        /* Responsive */
-        @media (max-width: 900px) {
-            .manga-detail-container {
-                grid-template-columns: 1fr;
-                gap: 2rem;
-            }
-
-            .manga-cover {
-                position: relative;
-                top: 0;
-                max-width: 300px;
-                margin: 0 auto;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .manga-detail {
-                padding: 100px 1.5rem 3rem;
-            }
-
-            .chapters-grid {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 0.75rem;
-            }
-
-            .chapter-btn {
-                padding: 0.75rem 1rem;
-                font-size: 0.85rem;
-            }
-        }
+      }
     </style>
-</head>
+  </head>
 
-<body>
+  <body>
     <!-- Header -->
     <header>
-        <div class="logo">
-            <span class="logo-icon"><i class="fas fa-book-open"></i></span>
-            <h1>MarmoScans</h1>
-        </div>
+      <div class="logo">
+        <span class="logo-icon"><i class="fas fa-book-open"></i></span>
+        <h1>MarmoScans</h1>
+      </div>
 
-        <nav class="main-nav">
-            <a href="index.html" class="nav-link">Inicio</a>
-            <a href="#" class="nav-link">MarmoWeb</a>
-            <a href="#" class="nav-link">Twitter</a>
-            <a href="#" class="nav-link">Instagram</a>
-            <a href="#" class="nav-link">Youtube</a>
-        </nav>
+      <nav class="main-nav">
+        <a href="index.html" class="nav-link active">Inicio</a>
+        <a href="https://sites.google.com/view/marmoweb/inicio" class="nav-link"
+          >MarmoWeb</a
+        >
+        <a href="https://x.com/MarmotaSenpai" class="nav-link">Twitter</a>
+        <a
+          href="https://www.instagram.com/marmotasenpai/?hl=es"
+          class="nav-link"
+          >Instagram</a
+        >
+        <a href="https://www.youtube.com/@MarmotaSenpai1" class="nav-link"
+          >Youtube</a
+        >
+      </nav>
 
-        <div class="header-actions">
-            <div class="search-box">
-                <input type="text" placeholder="Buscar manga...">
-                <i class="fas fa-search"></i>
-            </div>
-        </div>
-
-        <button class="mobile-menu-btn">
-            <span></span>
-            <span></span>
-            <span></span>
-        </button>
+      <button class="mobile-menu-btn">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
     </header>
 
     <!-- Manga Detail Section -->
     <section class="manga-detail">
-        <a href="../index.html" class="back-button">
-            <i class="fas fa-arrow-left"></i>
-            Volver al inicio
-        </a>
+      <a href="../index.html" class="back-button">
+        <i class="fas fa-arrow-left"></i>
+        Volver al inicio
+      </a>
 
-        <div class="manga-detail-container">
-            <div class="manga-cover">
-                <img src="https://pbs.twimg.com/media/G3rLtUAWYAAI4XJ?format=jpg&name=4096x4096" alt="One Piece">
-            </div>
-
-            <div class="manga-info">
-                <h1 class="manga-title">One Piece</h1>
-                <p class="manga-description">
-                    Sigue las aventuras de Monkey D. Luffy y su tripulación de piratas mientras buscan el tesoro más grande del mundo, el One Piece, para convertirse en el Rey de los Piratas.
-                </p>
-
-                <div class="chapters-section">
-                    <h2>Capítulos</h2>
-                    <div class="chapters-grid">
-                        <a href="../visor.html?manga=OnePiece&c=1171" class="chapter-btn">Capítulo 1171</a>
-                        <a href="../visor.html?manga=OnePiece&c=1172" class="chapter-btn">Capítulo 1172</a>
-                        <a href="#" class="chapter-btn">Capítulo 1173</a>
-                        <a href="#" class="chapter-btn">Capítulo 1174</a>
-                        <a href="#" class="chapter-btn">Capítulo 1175</a>
-                        <a href="#" class="chapter-btn">Capítulo 1176</a>
-                    </div>
-                </div>
-            </div>
+      <div class="manga-detail-container">
+        <div class="manga-cover">
+          <img
+            src="https://pbs.twimg.com/media/G3rLtUAWYAAI4XJ?format=jpg&name=4096x4096"
+            alt="One Piece"
+          />
         </div>
+
+        <div class="manga-info">
+          <h1 class="manga-title">One Piece</h1>
+          <p class="manga-description">
+            Sigue las aventuras de Monkey D. Luffy y su tripulación de piratas
+            mientras buscan el tesoro más grande del mundo, el One Piece, para
+            convertirse en el Rey de los Piratas.
+          </p>
+
+          <div class="chapters-section">
+            <h2>Capítulos</h2>
+            <div class="chapters-grid">
+              <a href="../visor.html?manga=OnePiece&c=1171" class="chapter-btn"
+                >Capítulo 1171</a
+              >
+              <a href="../visor.html?manga=OnePiece&c=1172" class="chapter-btn"
+                >Capítulo 1172</a
+              >
+              <a href="#" class="chapter-btn">Capítulo 1173</a>
+              <a href="#" class="chapter-btn">Capítulo 1174</a>
+              <a href="#" class="chapter-btn">Capítulo 1175</a>
+              <a href="#" class="chapter-btn">Capítulo 1176</a>
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
 
     <!-- Footer -->
     <footer>
-        <div class="footer-content">
-            <div class="footer-brand">
-                <span class="logo-icon"><i class="fas fa-book-open"></i></span>
-                <h3>MarmoScans</h3>
-            </div>
+      <div class="footer-content">
+        <div class="footer-brand">
+          <span class="logo-icon"><i class="fas fa-book-open"></i></span>
+          <h3>MarmoScans</h3>
         </div>
-        <div class="footer-bottom">
-            <p>&copy; 2026 MarmoScans. Todos los derechos reservados.</p>
-        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 MarmoScans. Todos los derechos reservados.</p>
+      </div>
     </footer>
 
     <script src="./main.js"></script>
-</body>
+  </body>
 </html>
