@@ -1,88 +1,163 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Visor - MarmoScans</title>
-    <link rel="stylesheet" href="css/styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css"/>
+    <link rel="stylesheet" href="css/styles.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css"
+    />
     <style>
-        body { background-color: #0b0d17; color: white; display: flex; flex-direction: column; align-items: center; margin: 0; font-family: sans-serif; }
-        header { width: 100%; position: relative; top: 0; z-index: 1000; background: #0b0d17; border-bottom: 1px solid #333; }
-        
-        #manga-container { width: 100%; max-width: 900px; display: flex; flex-direction: column; align-items: center; padding: 20px 0; }
-        #manga-container img { width: 100%; max-width: 1200px; height: auto; display: block; margin-bottom: 5px; }
-        
+      body {
+        background-color: #0b0d17;
+        color: white;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin: 0;
+        font-family: sans-serif;
+      }
+      header {
+        width: 100%;
+        position: relative;
+        top: 0;
+        z-index: 1000;
+        background: #0b0d17;
+        border-bottom: 1px solid #333;
+      }
 
-        .nav-footer { width: 90%; max-width: 800px; display: flex; justify-content: space-between; padding: 20px; background: #161821; border-radius: 10px; margin: 40px 0; border: 1px solid #333; }
-        .nav-btn { color: white; text-decoration: none; font-weight: bold; padding: 12px 25px; background: #5a32a8; border-radius: 6px; transition: 0.3s; }
-        .nav-btn:hover { background: #7c4dff; }
-        .list-btn { background: #333; }
-        /* Esta clase le da el tamaño grande a las dobles */
-        .double-page { max-width: 1400px !important; margin: 20px auto !important;
-}
+      #manga-container {
+        width: 100%;
+        max-width: 900px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 20px 0;
+      }
+      #manga-container img {
+        width: 100%;
+        max-width: 1200px;
+        height: auto;
+        display: block;
+        margin-bottom: 5px;
+      }
+
+      .nav-footer {
+        width: 90%;
+        max-width: 800px;
+        display: flex;
+        justify-content: space-between;
+        padding: 20px;
+        background: #161821;
+        border-radius: 10px;
+        margin: 40px 0;
+        border: 1px solid #333;
+      }
+      .nav-btn {
+        color: white;
+        text-decoration: none;
+        font-weight: bold;
+        padding: 12px 25px;
+        background: #5a32a8;
+        border-radius: 6px;
+        transition: 0.3s;
+      }
+      .nav-btn:hover {
+        background: #7c4dff;
+      }
+      .list-btn {
+        background: #333;
+      }
+      /* Esta clase le da el tamaño grande a las dobles */
+      .double-page {
+        max-width: 1400px !important;
+        margin: 20px auto !important;
+      }
     </style>
-</head>
-<body>
-
+  </head>
+  <body>
     <header>
-        <div class="logo" style="display: flex; align-items: center; padding: 10px 20px;">
-            <span class="logo-icon" style="margin-right: 10px;"><i class="fas fa-book-open"></i></span>
-            <h1 style="font-size: 1.5rem; margin: 0;">MarmoScans</h1>
-        </div>
+      <div
+        class="logo"
+        style="display: flex; align-items: center; padding: 10px 20px"
+      >
+        <span class="logo-icon" style="margin-right: 10px"
+          ><i class="fas fa-book-open"></i
+        ></span>
+        <h1 style="font-size: 1.5rem; margin: 0">MarmoScans</h1>
+      </div>
     </header>
 
     <div id="manga-container">
-        <h2 id="info-display" style="margin-bottom: 20px; color: #aaa;">Cargando contenido...</h2>
-        </div>
+      <h2 id="info-display" style="margin-bottom: 20px; color: #aaa">
+        Cargando contenido...
+      </h2>
+    </div>
 
     <div class="nav-footer">
-        <a href="#" id="prev-btn" class="nav-btn">← ANTERIOR</a>
-        <a href="index.html" id="back-to-list" class="nav-btn list-btn"><i class="fas fa-bars"></i></a>
-        <a href="#" id="next-btn" class="nav-btn">SIGUIENTE →</a>
+      <a href="#" id="prev-btn" class="nav-btn">← ANTERIOR</a>
+      <a href="index.html" id="back-to-list" class="nav-btn list-btn"
+        ><i class="fas fa-bars"></i
+      ></a>
+      <a href="#" id="next-btn" class="nav-btn">SIGUIENTE →</a>
     </div>
 
     <script>
-        // 1. Capturar los datos de la URL
-        const params = new URLSearchParams(window.location.search);
-        const manga = params.get('manga') || 'OnePiece'; // Manga por defecto
-        const cap = parseInt(params.get('c')) || 1;      // Capítulo por defecto
-        
-        // 2. Actualizar textos e información
-        document.getElementById('info-display').innerText = `${manga.replace(/([A-Z])/g, ' $1')} - Capítulo ${cap}`;
-        document.title = `${manga} Cap ${cap} - MarmoScans`;
+      // 1. Capturar los datos de la URL
+      const params = new URLSearchParams(window.location.search);
+      const manga = params.get("manga") || "OnePiece"; // Manga por defecto
+      const cap = parseInt(params.get("c")) || 1; // Capítulo por defecto
 
-        // 3. Configurar botones de navegación
-        // Redirige a la página del manga específico (ej: mangas/onepiece.html)
-        document.getElementById('back-to-list').href = `mangas/${manga.toLowerCase()}.html`;
-        
-        document.getElementById('next-btn').href = `visor.html?manga=${manga}&c=${cap + 1}`;
-        document.getElementById('prev-btn').href = (cap > 1) ? `visor.html?c=${cap - 1}` : "#";
+      // 2. Actualizar textos e información
+      document.getElementById("info-display").innerText =
+        `${manga.replace(/([A-Z])/g, " $1")} - Capítulo ${cap}`;
+      document.title = `${manga} Cap ${cap} - MarmoScans`;
 
-        // 4. Cargar imágenes dinámicamente
-        const container = document.getElementById('manga-container');
-        
-        // Intentaremos cargar hasta 100 páginas
-        for (let i = 1; i <= 100; i++) {
-            let p = i.toString().padStart(3, '0');
-            let img = document.createElement('img');
-            
-            // RUTA DINÁMICA: Marmoscans / [Manga] / [Capitulo] / [Cap-Pagina].webp
-            // Ejemplo: Marmoscans/OnePiece/1171/1171-001.webp
-            img.src = `Marmoscans/${manga}/${cap}/${cap}-${p}.webp`; 
-            
-            // MODIFICACIÓN: Agregamos la detección de tamaño al cargar
-            img.onload = function() {
-                if (this.naturalWidth > 1200) {
-                    this.style.maxWidth = '1400px';
-                    this.style.margin = '20px auto';
-                    this.style.boxShadow = '0 4px 15px rgba(0,0,0,0.5)';
-                }
-            };
+      // 3. Configurar botones de navegación
+      // Redirige a la página del manga específico (ej: mangas/onepiece.html)
+      document.getElementById("back-to-list").href =
+        `mangas/${manga.toLowerCase()}.html`;
 
-            img.onerror = function() { this.style.display = 'none'; };
-            container.appendChild(img);
-        }
+      document.getElementById("next-btn").href =
+        `visor.html?manga=${manga}&c=${cap + 1}`;
+      document.getElementById("prev-btn").href =
+        cap > 1 ? `visor.html?c=${cap - 1}` : "#";
+
+      // 4. Cargar imágenes dinámicamente
+      const container = document.getElementById("manga-container");
+
+      // Intentaremos cargar hasta 100 páginas
+      for (let i = 1; i <= 100; i++) {
+        let p = i.toString().padStart(3, "0");
+        let img = document.createElement("img");
+
+        // RUTA DINÁMICA: Marmoscans / [Manga] / [Capitulo] / [Cap-Pagina].webp
+        // Ejemplo: Marmoscans/OnePiece/1171/1171-001.webp
+        img.src = `Marmoscans/${manga}/${cap}/${cap}-${p}.webp`;
+
+        // Nueva lógica de carga secuencial
+        img.onload = function () {
+          // Aplicar estilo si es página doble
+          if (this.naturalWidth > 1200) {
+            this.style.maxWidth = "1400px";
+            this.style.margin = "20px auto";
+            this.style.boxShadow = "0 4px 15px rgba(0,0,0,0.5)";
+          }
+          container.appendChild(img);
+        };
+
+        // Si falla la carga, detenemos el proceso para esta página
+        img.onerror = function () {
+          this.style.display = "none";
+        };
+
+        // Si falla la carga, detenemos el proceso para esta página
+        img.onerror = function () {
+          this.style.display = "none";
+        };
+      }
     </script>
-</body>
+  </body>
 </html>
