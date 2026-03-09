@@ -3,84 +3,74 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MarmoScans - Visor</title>
+    <title>Visor - MarmoScans</title>
     <link rel="stylesheet" href="css/styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css"/>
     <style>
-        /* Ajustes para que el visor no se vea roto */
-        body { background-color: #0b0d17; color: white; display: flex; flex-direction: column; align-items: center; }
-        header { width: 100%; } /* Asegura que el header ocupe el ancho */
-        #manga-pages { width: 100%; max-width: 900px; display: flex; flex-direction: column; align-items: center; padding: 20px 0; }
-        #manga-pages img { width: 100%; height: auto; display: block; margin-bottom: 5px; }
+        body { background-color: #0b0d17; color: white; display: flex; flex-direction: column; align-items: center; margin: 0; font-family: sans-serif; }
+        header { width: 100%; position: sticky; top: 0; z-index: 1000; background: #0b0d17; border-bottom: 1px solid #333; }
+        
+        #manga-container { width: 100%; max-width: 900px; display: flex; flex-direction: column; align-items: center; padding: 20px 0; }
+        #manga-container img { width: 100%; height: auto; display: block; margin-bottom: 5px; }
+
+        .nav-footer { width: 90%; max-width: 800px; display: flex; justify-content: space-between; padding: 20px; background: #161821; border-radius: 10px; margin: 40px 0; border: 1px solid #333; }
+        .nav-btn { color: white; text-decoration: none; font-weight: bold; padding: 12px 25px; background: #5a32a8; border-radius: 6px; transition: 0.3s; }
+        .nav-btn:hover { background: #7c4dff; }
+        .list-btn { background: #333; }
     </style>
 </head>
 <body>
 
     <header>
-        <div class="logo">
-            <span class="logo-icon"><i class="fas fa-book-open"></i></span>
-            <h1>MarmoScans</h1>
+        <div class="logo" style="display: flex; align-items: center; padding: 10px 20px;">
+            <span class="logo-icon" style="margin-right: 10px;"><i class="fas fa-book-open"></i></span>
+            <h1 style="font-size: 1.5rem; margin: 0;">MarmoScans</h1>
         </div>
-        <nav class="main-nav">
-            <a href="index.html" class="nav-link">Inicio</a>
-            <a href="#" class="nav-link">MarmoWeb</a>
-            <a href="#" class="nav-link">Twitter</a>
-        </nav>
     </header>
 
-    <div id="manga-pages">
-        <h2 id="titulo-cap">Cargando...</h2>
+    <div id="manga-container">
+        <h2 id="info-display" style="margin-bottom: 20px; color: #aaa;">Cargando contenido...</h2>
+        </div>
+
+    <div class="nav-footer">
+        <a href="#" id="prev-btn" class="nav-btn">← ANTERIOR</a>
+        <a href="index.html" id="back-to-list" class="nav-btn list-btn"><i class="fas fa-bars"></i></a>
+        <a href="#" id="next-btn" class="nav-btn">SIGUIENTE →</a>
     </div>
 
-    <div class="nav-footer" style="margin-bottom: 50px;">
-        <a href="#" id="prev-link" style="padding: 10px; background: #5a32a8; color:white; text-decoration:none;">← PREV</a>
-        <a href="index.html" style="padding: 10px; background: #333; color:white; text-decoration:none;">☰ Lista</a>
-        <a href="#" id="next-link" style="padding: 10px; background: #5a32a8; color:white; text-decoration:none;">NEXT →</a>
-    </div>
-
-<script>
-        // 1. Obtener los parámetros de la URL
+    <script>
+        // 1. Capturar los datos de la URL
         const params = new URLSearchParams(window.location.search);
-        let cap = parseInt(params.get('c'));
-
-        if (isNaN(cap)) { cap = 1; }
-
-        // 2. Títulos dinámicos
-        let nombreCapitulo = "";
-        if (cap === 1) { nombreCapitulo = "Capítulo 1166"; } 
-        else { nombreCapitulo = "Capítulo " + (1165 + cap); }
-
-        document.getElementById('titulo-cap').innerText = nombreCapitulo;
-        document.getElementById('page-title').innerText = "Viendo " + nombreCapitulo;
-
-        // 3. Configurar el botón "Siguiente Capítulo"
-        const nextLink = document.getElementById('next-btn');
-        let nextCap = cap + 1; 
+        const manga = params.get('manga') || 'OnePiece'; // Manga por defecto
+        const cap = parseInt(params.get('c')) || 1;      // Capítulo por defecto
         
-        // Límite de capítulos (Ajusta este número según subas más)
-        if (cap < 5) {  
-            nextLink.href = `visor.html?c=${nextCap}`;
-            nextLink.style.display = 'inline-block';
-        } else {
-            nextLink.style.display = 'none';
-        }
+        // 2. Actualizar textos e información
+        document.getElementById('info-display').innerText = `${manga.replace(/([A-Z])/g, ' $1')} - Capítulo ${cap}`;
+        document.title = `${manga} Cap ${cap} - MarmoScans`;
 
-        const container = document.getElementById('manga-pages');
+        // 3. Configurar botones de navegación
+        // Redirige a la página del manga específico (ej: mangas/onepiece.html)
+        document.getElementById('back-to-list').href = `mangas/${manga.toLowerCase()}.html`;
+        
+        document.getElementById('next-btn').href = `visor.html?manga=${manga}&c=${cap + 1}`;
+        document.getElementById('prev-btn').href = (cap > 1) ? `visor.html?c=${cap - 1}` : "#";
 
-        // 4. Cargar las imágenes
-        for (let i = 1; i <= 30; i++) {
-            let pageNum = i.toString().padStart(3, '0');
+        // 4. Cargar imágenes dinámicamente
+        const container = document.getElementById('manga-container');
+        
+        // Intentaremos cargar hasta 100 páginas
+        for (let i = 1; i <= 100; i++) {
+            let p = i.toString().padStart(3, '0');
             let img = document.createElement('img');
             
-            // Usamos tu ruta de carpetas
-            img.src = `manga/capitulo-${cap}/${1165 + cap}-${pageNum}.png`; 
-            img.alt = `Página ${pageNum}`;
+            // RUTA DINÁMICA: Marmoscans / [Manga] / [Capitulo] / [Cap-Pagina].webp
+            // Ejemplo: Marmoscans/OnePiece/1171/1171-001.webp
+            img.src = `Marmoscans/${manga}/${cap}/${cap}-${p}.webp`; 
             
-            // Si la imagen no existe, la oculta
+            // Si la imagen no existe (ej: la página 21 de un cap de 20), se oculta
             img.onerror = function() { this.style.display = 'none'; };
-            
             container.appendChild(img);
         }
-</script>
+    </script>
 </body>
 </html>
