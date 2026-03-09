@@ -70,6 +70,21 @@
       .list-btn {
         background: #333;
       }
+      /* 1. Estilo base para TODAS las imágenes (Verticales) */
+      .page-img {
+        width: 95%; /* Ocupa el 95% del ancho disponible */
+        max-width: 1050px; /* Tamaño máximo para las verticales */
+        margin: 10px auto;
+        display: block;
+      }
+
+      /* 2. Estilo específico para las DOBLES (Detectadas por el script) */
+      .double-page {
+        max-width: 1600px !important; /* Aquí controlas el tamaño extra grande */
+        width: 80% !important; /* Aquí controlas el 80% de la pantalla */
+        margin: 20px auto !important;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
+      }
     </style>
   </head>
   <body>
